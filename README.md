@@ -12,13 +12,16 @@ helm repo add littlehorse https://littlehorse-enterprises.github.io/lh-helm-char
 ```
 
 If you had already added this repo earlier, run `helm repo update` to retrieve
-the latest versions of the packages.  You can then run `helm search repo
-littlehorse` to see the charts.
+the latest versions of the packages.  You can then run `helm search repo littlehorse` to see the charts.
 
-To install the <chart-name> chart:
+To install the lh-operator chart:
 
-    helm install my-<chart-name> littlehorse/<chart-name>
+```
+helm install lh-operator littlehorse/lh-operator
+```
 
 To uninstall the chart:
 
-    helm delete my-<chart-name>
+```
+helm delete lh-operator
+```
