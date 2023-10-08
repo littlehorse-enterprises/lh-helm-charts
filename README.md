@@ -7,7 +7,9 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 
 Once Helm has been set up correctly, add the repo as follows:
 
-  helm repo add littlehorse https://littlehorse.github.io/lh-helm-charts
+```
+helm repo add littlehorse https://littlehorse-enterprises.github.io/lh-helm-charts/
+```
 
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages.  You can then run `helm search repo
