@@ -86,12 +86,10 @@ spec:
                         name:
                           type: string
                         infrastructure:
+                          nullable: true
                           properties:
                             ingress:
                               properties:
-                                serverHostSuffix:
-                                  nullable: true
-                                  type: string
                                 ingressClassName:
                                   type: string
                                 ingressAnnotations:
@@ -100,6 +98,26 @@ spec:
                                   type: object
                               required:
                               - ingressClassName
+                              type: object
+                            istio:
+                              properties:
+                                gateway:
+                                  properties:
+                                    name:
+                                      type: string
+                                    namespace:
+                                      nullable: true
+                                      type: string
+                                    port:
+                                      nullable: true
+                                      type: integer
+                                  required:
+                                  - name
+                                  type: object
+                                serverHostSuffix:
+                                  type: string
+                              required:
+                              - gateway
                               type: object
                           type: object
                         tls:
@@ -128,6 +146,9 @@ spec:
                                   nullable: true
                                   type: string
                               type: object
+                            serverHostSuffix:
+                              nullable: true
+                              type: string
                             servers:
                               items:
                                 properties:
@@ -139,9 +160,8 @@ spec:
                                 - host
                                 - port
                                 type: object
+                              nullable: true
                               type: array
-                          required:
-                          - servers
                           type: object
                         port:
                           type: integer
