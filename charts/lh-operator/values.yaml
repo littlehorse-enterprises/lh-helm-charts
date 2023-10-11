@@ -31,7 +31,11 @@ role:
 
 strimzi:
   # Specifies if the operator can create Strimzi topics and users
-  grantPermissions: true
+  enabled: false
+
+istio:
+  # Specifies if the operator can create Istio virtualservices
+  enabled: false
 
 podAnnotations: {}
 

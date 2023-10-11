@@ -19,9 +19,14 @@ rules:
 - apiGroups: ["littlehorse.io"]
   resources: ["*"]
   verbs: ["*"]
-{{- if .Values.strimzi.grantPermissions }}
+{{- if .Values.strimzi.enabled }}
 - apiGroups: ["kafka.strimzi.io"]
   resources: ["kafkausers", "kafkatopics"]
+  verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+{{- end -}}
+{{- if .Values.istio.enabled }}
+- apiGroups: ["networking.istio.io"]
+  resources: ["virtualservices", "gateways"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 {{- end -}}
 {{- end }}
