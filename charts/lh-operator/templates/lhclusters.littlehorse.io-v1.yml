@@ -143,8 +143,9 @@ spec:
                               nullable: true
                               properties:
                                 host:
-                                  nullable: true
                                   type: string
+                              required:
+                              - host
                               type: object
                             serverHostSuffix:
                               nullable: true
