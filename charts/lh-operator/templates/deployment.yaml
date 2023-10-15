@@ -50,9 +50,9 @@ spec:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: LHO_STRIMZI_ENABLED
-            value: {{ .Values.strimzi.enabled }}
+            value: "{{ .Values.strimzi.enabled }}"
           - name: LHO_ISTIO_ENABLED
-            value: {{ .Values.istio.enabled }}
+            value: "{{ .Values.istio.enabled }}"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
