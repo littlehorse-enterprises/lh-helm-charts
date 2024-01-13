@@ -31,7 +31,7 @@ role:
 
 strimzi:
   # Specifies if the operator can create Strimzi topics and users
-  enabled: false
+  enabled: true
 
 istio:
   # Specifies if the operator can create Istio virtualservices
@@ -70,3 +70,4 @@ affinity: {}
 
 helm:
   addHelmLabels: true
+  installCrds: false
