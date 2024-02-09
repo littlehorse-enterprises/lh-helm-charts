@@ -37,6 +37,9 @@ istio:
   # Specifies if the operator can create Istio virtualservices
   enabled: false
 
+certManager:
+  enabled: false
+
 podAnnotations: {}
 
 podSecurityContext: {}
