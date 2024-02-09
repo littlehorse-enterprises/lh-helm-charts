@@ -53,6 +53,8 @@ spec:
             value: "{{ .Values.strimzi.enabled }}"
           - name: LHO_ISTIO_ENABLED
             value: "{{ .Values.istio.enabled }}"
+          - name: LHO_CERTMANAGER_ENABLED
+            value: "{{ .Values.certManager.enabled }}"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
