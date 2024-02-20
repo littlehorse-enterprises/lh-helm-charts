@@ -5,7 +5,7 @@
 replicas: 1
 
 image:
-  repository: public.ecr.aws/littlehorse/lh-operator
+  repository: ghcr.io/littlehorse-enterprises/littlehorse/lh-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -34,10 +34,15 @@ strimzi:
   enabled: true
 
 istio:
-  # Specifies if the operator can create Istio virtualservices
+  # Specifies if the operator can create Istio VirtualServices
+  enabled: false
+
+prometheus:
+  # Specifies if the operator can create prometheus PodMonitors
   enabled: false
 
 certManager:
+  # pecifies if CertManager is intalled
   enabled: false
 
 podAnnotations: {}
@@ -73,4 +78,3 @@ affinity: {}
 
 helm:
   addHelmLabels: true
-  installCrds: false

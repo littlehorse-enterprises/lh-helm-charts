@@ -25,3 +25,14 @@ To uninstall the chart:
 ```
 helm delete lh-operator
 ```
+
+## Development
+
+To install from source code:
+
+```
+helm upgrade --install \
+             --set image.repository=littlehorse/lh-operator \
+             --set image.tag=latest \
+             lh-operator ./charts/lh-operator
+```
