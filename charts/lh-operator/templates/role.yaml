@@ -32,6 +32,11 @@ rules:
   resources: ["virtualservices", "gateways"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 {{- end -}}
+{{- if .Values.certManager.enabled }}
+- apiGroups: ["cert-manager.io"]
+  resources: ["certificates"]
+  verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+{{- end -}}
 {{- if .Values.prometheus.enabled }}
 - apiGroups: ["monitoring.coreos.com"]
   resources: ["podmonitors"]
