@@ -78,3 +78,5 @@ affinity: {}
 
 helm:
   addHelmLabels: true
+
+logLevel: INFO

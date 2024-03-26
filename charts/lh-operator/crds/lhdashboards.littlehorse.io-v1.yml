@@ -100,6 +100,7 @@ spec:
                                     anyOf:
                                     - type: integer
                                     - type: string
+                                    nullable: true
                                     x-kubernetes-int-or-string: true
                                   resource:
                                     type: string
@@ -145,6 +146,7 @@ spec:
                                     anyOf:
                                     - type: integer
                                     - type: string
+                                    nullable: true
                                     x-kubernetes-int-or-string: true
                                   resource:
                                     type: string

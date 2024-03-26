@@ -71,6 +71,36 @@ spec:
                     - createTopics
                     - listener
                     type: object
+                  externalClusterRef:
+                    properties:
+                      bootstrapServers:
+                        type: string
+                      securityProtocol:
+                        type: string
+                      kafkaTrustStore:
+                        properties:
+                          name:
+                            type: string
+                        required:
+                        - name
+                        type: object
+                      kafkaKeyStore:
+                        properties:
+                          name:
+                            type: string
+                        required:
+                        - name
+                        type: object
+                      saslJaasConfig:
+                        properties:
+                          name:
+                            type: string
+                        required:
+                        - name
+                        type: object
+                      saslMechanism:
+                        type: string
+                    type: object
                   replicationFactor:
                     type: integer
                   clusterPartitions:
@@ -174,6 +204,8 @@ spec:
                     type: string
                   image:
                     type: string
+                  logLevel:
+                    type: string
                   imagePullPolicy:
                     type: string
                   replicas:
@@ -194,11 +226,17 @@ spec:
                     nullable: true
                     properties:
                       cpu:
+                        anyOf:
+                        - type: integer
+                        - type: string
                         nullable: true
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
+                        anyOf:
+                        - type: integer
+                        - type: string
                         nullable: true
-                        type: string
+                        x-kubernetes-int-or-string: true
                     type: object
                   rackAwareness:
                     nullable: true
