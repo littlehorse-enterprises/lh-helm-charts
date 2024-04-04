@@ -14,17 +14,21 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .spec.kafka.clusterPartitions
-      name: partitions
-      type: integer
     - jsonPath: .spec.server.replicas
       name: REPLICAS
+      priority: 0
       type: integer
-    - jsonPath: .spec.server.storage.volumeSize
-      name: VOLUMESIZE
+    - jsonPath: .status.adminPrincipal
+      name: ADMINPRINCIPAL
+      priority: 0
       type: string
+    - jsonPath: .status.partitions
+      name: PARTITIONS
+      priority: 0
+      type: integer
     - jsonPath: .status.problems
       name: PROBLEMS
+      priority: 0
       type: string
     name: v1
     schema:
@@ -32,59 +36,26 @@ spec:
         properties:
           spec:
             properties:
+              defaultLabels:
+                additionalProperties:
+                  type: string
+                type: object
               kafka:
                 properties:
-                  strimziClusterRef:
-                    properties:
-                      clusterName:
-                        type: string
-                      createTopics:
-                        type: boolean
-                      quotas:
-                        properties:
-                          producerByteRate:
-                            nullable: true
-                            type: integer
-                          consumerByteRate:
-                            nullable: true
-                            type: integer
-                          requestPercentage:
-                            nullable: true
-                            type: integer
-                          controllerMutationRate:
-                            nullable: true
-                            type: number
-                        type: object
-                      listener:
-                        properties:
-                          tls:
-                            type: boolean
-                          port:
-                            type: integer
-                          authentication:
-                            type: string
-                        required:
-                        - port
-                        type: object
-                    required:
-                    - clusterName
-                    - createTopics
-                    - listener
-                    type: object
+                  clusterPartitions:
+                    type: integer
                   externalClusterRef:
                     properties:
                       bootstrapServers:
                         type: string
-                      securityProtocol:
-                        type: string
-                      kafkaTrustStore:
+                      kafkaKeyStore:
                         properties:
                           name:
                             type: string
                         required:
                         - name
                         type: object
-                      kafkaKeyStore:
+                      kafkaTrustStore:
                         properties:
                           name:
                             type: string
@@ -100,72 +71,146 @@ spec:
                         type: object
                       saslMechanism:
                         type: string
+                      securityProtocol:
+                        type: string
                     type: object
                   replicationFactor:
                     type: integer
-                  clusterPartitions:
-                    type: integer
+                  strimziClusterRef:
+                    properties:
+                      clusterName:
+                        type: string
+                      createTopics:
+                        type: boolean
+                      listener:
+                        properties:
+                          authentication:
+                            type: string
+                          port:
+                            type: integer
+                          tls:
+                            type: boolean
+                        required:
+                        - port
+                        type: object
+                      quotas:
+                        properties:
+                          consumerByteRate:
+                            nullable: true
+                            type: integer
+                          controllerMutationRate:
+                            nullable: true
+                            type: number
+                          producerByteRate:
+                            nullable: true
+                            type: integer
+                          requestPercentage:
+                            nullable: true
+                            type: integer
+                        type: object
+                    required:
+                    - clusterName
+                    - createTopics
+                    - listener
+                    type: object
                 required:
                 - clusterPartitions
                 type: object
+              podMonitor:
+                properties:
+                  metricRelabelings:
+                    items:
+                      properties:
+                        action:
+                          type: string
+                        modulus:
+                          type: integer
+                        regex:
+                          type: string
+                        replacement:
+                          type: string
+                        separator:
+                          type: string
+                        sourceLabels:
+                          items:
+                            type: string
+                          type: array
+                        targetLabel:
+                          type: string
+                      type: object
+                    type: array
+                  podMonitorLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
               server:
                 properties:
+                  authentication:
+                    properties:
+                      mtls:
+                        properties:
+                          clientCaCert:
+                            properties:
+                              secretRef:
+                                properties:
+                                  name:
+                                    type: string
+                                required:
+                                - name
+                                type: object
+                            required:
+                            - secretRef
+                            type: object
+                        required:
+                        - clientCaCert
+                        type: object
+                      oauth:
+                        properties:
+                          credentials:
+                            properties:
+                              secretRef:
+                                properties:
+                                  name:
+                                    type: string
+                                required:
+                                - name
+                                type: object
+                            required:
+                            - secretRef
+                            type: object
+                          introspectionEndpointUrl:
+                            type: string
+                        required:
+                        - introspectionEndpointUrl
+                        - credentials
+                        type: object
+                    type: object
+                  compute:
+                    nullable: true
+                    properties:
+                      cpu:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        nullable: true
+                        x-kubernetes-int-or-string: true
+                      memory:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        nullable: true
+                        x-kubernetes-int-or-string: true
+                    type: object
+                  hotStandbyReplicas:
+                    type: integer
+                  image:
+                    type: string
+                  imagePullPolicy:
+                    type: string
                   listeners:
                     items:
                       properties:
-                        name:
-                          type: string
-                        infrastructure:
-                          nullable: true
-                          properties:
-                            ingress:
-                              properties:
-                                ingressClassName:
-                                  type: string
-                                ingressAnnotations:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              required:
-                              - ingressClassName
-                              type: object
-                            istio:
-                              properties:
-                                gateway:
-                                  properties:
-                                    selector:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                    port:
-                                      nullable: true
-                                      type: integer
-                                  required:
-                                  - selector
-                                  type: object
-                              required:
-                              - gateway
-                              type: object
-                          type: object
-                        tls:
-                          properties:
-                            secretRef:
-                              properties:
-                                name:
-                                  type: string
-                              required:
-                              - name
-                              type: object
-                            issuerRef:
-                              type: string
-                          type: object
-                        authentication:
-                          properties:
-                            type:
-                              type: string
-                          required:
-                          - type
-                          type: object
                         advertisedListeners:
                           properties:
                             bootstrap:
@@ -193,105 +238,74 @@ spec:
                               nullable: true
                               type: array
                           type: object
+                        authentication:
+                          properties:
+                            type:
+                              type: string
+                          required:
+                          - type
+                          type: object
+                        infrastructure:
+                          nullable: true
+                          properties:
+                            ingress:
+                              properties:
+                                ingressAnnotations:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                ingressClassName:
+                                  type: string
+                              required:
+                              - ingressClassName
+                              type: object
+                            istio:
+                              properties:
+                                gateway:
+                                  properties:
+                                    port:
+                                      nullable: true
+                                      type: integer
+                                    selector:
+                                      additionalProperties:
+                                        type: string
+                                      type: object
+                                  required:
+                                  - selector
+                                  type: object
+                              required:
+                              - gateway
+                              type: object
+                          type: object
+                        name:
+                          type: string
                         port:
                           type: integer
+                        tls:
+                          properties:
+                            issuerRef:
+                              type: string
+                            secretRef:
+                              properties:
+                                name:
+                                  type: string
+                              required:
+                              - name
+                              type: object
+                          type: object
                       required:
                       - name
                       - port
                       type: object
                     type: array
-                  version:
-                    type: string
-                  image:
-                    type: string
                   logLevel:
                     type: string
-                  imagePullPolicy:
-                    type: string
-                  replicas:
-                    minimum: 1.0
-                    type: integer
-                  storage:
+                  operatorListener:
                     properties:
-                      storageClassName:
+                      name:
                         type: string
-                      volumeSize:
-                        type: string
-                    required:
-                    - storageClassName
-                    type: object
-                  hotStandbyReplicas:
-                    type: integer
-                  compute:
-                    nullable: true
-                    properties:
-                      cpu:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        nullable: true
-                        x-kubernetes-int-or-string: true
-                      memory:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        nullable: true
-                        x-kubernetes-int-or-string: true
-                    type: object
-                  rackAwareness:
-                    nullable: true
-                    properties:
-                      zoneKey:
-                        type: string
-                      zoneIds:
-                        items:
-                          type: string
-                        type: array
-                    required:
-                    - zoneKey
-                    - zoneIds
-                    type: object
-                  authentication:
-                    properties:
-                      mtls:
-                        properties:
-                          clientCaCert:
-                            properties:
-                              secretRef:
-                                properties:
-                                  name:
-                                    type: string
-                                required:
-                                - name
-                                type: object
-                            required:
-                            - secretRef
-                            type: object
-                        required:
-                        - clientCaCert
-                        type: object
-                      oauth:
-                        properties:
-                          introspectionEndpointUrl:
-                            type: string
-                          credentials:
-                            properties:
-                              secretRef:
-                                properties:
-                                  name:
-                                    type: string
-                                required:
-                                - name
-                                type: object
-                            required:
-                            - secretRef
-                            type: object
-                        required:
-                        - introspectionEndpointUrl
-                        - credentials
-                        type: object
-                    type: object
-                  template:
+                      port:
+                        type: integer
                     type: object
                   podAnnotations:
                     additionalProperties:
@@ -301,6 +315,22 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                  rackAwareness:
+                    nullable: true
+                    properties:
+                      zoneIds:
+                        items:
+                          type: string
+                        type: array
+                      zoneKey:
+                        type: string
+                    required:
+                    - zoneKey
+                    - zoneIds
+                    type: object
+                  replicas:
+                    minimum: 1.0
+                    type: integer
                   serviceAnnotations:
                     additionalProperties:
                       type: string
@@ -309,53 +339,52 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                  storage:
+                    properties:
+                      storageClassName:
+                        type: string
+                      volumeSize:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        nullable: true
+                        x-kubernetes-int-or-string: true
+                    required:
+                    - storageClassName
+                    - volumeSize
+                    type: object
+                  template:
+                    type: object
+                  version:
+                    type: string
                 required:
                 - replicas
                 - storage
                 type: object
-              podMonitor:
-                properties:
-                  podMonitorLabels:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  metricRelabelings:
-                    items:
-                      properties:
-                        action:
-                          type: string
-                        modulus:
-                          type: integer
-                        regex:
-                          type: string
-                        replacement:
-                          type: string
-                        separator:
-                          type: string
-                        sourceLabels:
-                          items:
-                            type: string
-                          type: array
-                        targetLabel:
-                          type: string
-                      type: object
-                    type: array
-                type: object
-              defaultLabels:
-                additionalProperties:
-                  type: string
-                type: object
+            required:
+            - kafka
+            - server
             type: object
           status:
             properties:
+              adminPrincipal:
+                type: string
               lastBounceTime:
                 type: integer
               lastBouncedPod:
                 type: integer
-              problems:
-                type: string
               observedGeneration:
                 type: integer
+              partitions:
+                type: integer
+              problems:
+                type: string
+              volumeSizeInternal:
+                anyOf:
+                - type: integer
+                - type: string
+                nullable: true
+                x-kubernetes-int-or-string: true
             type: object
         type: object
     served: true

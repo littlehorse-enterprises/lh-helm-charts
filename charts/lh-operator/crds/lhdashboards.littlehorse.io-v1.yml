@@ -16,6 +16,7 @@ spec:
   - additionalPrinterColumns:
     - jsonPath: .status.problems
       name: PROBLEMS
+      priority: 0
       type: string
     name: v1
     schema:
@@ -23,43 +24,12 @@ spec:
         properties:
           spec:
             properties:
-              image:
-                type: string
-              imagePullPolicy:
-                type: string
-              replicas:
-                minimum: 1.0
-                type: integer
-              resources:
-                properties:
-                  claims:
-                    items:
-                      properties:
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  limits:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                  requests:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                type: object
               api:
                 properties:
-                  port:
-                    type: integer
                   host:
                     type: string
+                  port:
+                    type: integer
                 required:
                 - port
                 - host
@@ -68,8 +38,6 @@ spec:
                 properties:
                   oauth:
                     properties:
-                      serverUrl:
-                        type: string
                       callbackUrl:
                         type: string
                       clientId:
@@ -164,6 +132,8 @@ spec:
                         required:
                         - valueFrom
                         type: object
+                      serverUrl:
+                        type: string
                     required:
                     - serverUrl
                     - callbackUrl
@@ -178,6 +148,39 @@ spec:
                   type: string
                 nullable: true
                 type: object
+              image:
+                type: string
+              imagePullPolicy:
+                type: string
+              replicas:
+                minimum: 1.0
+                type: integer
+              resources:
+                properties:
+                  claims:
+                    items:
+                      properties:
+                        name:
+                          type: string
+                      type: object
+                    type: array
+                  limits:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      nullable: true
+                      x-kubernetes-int-or-string: true
+                    type: object
+                  requests:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      nullable: true
+                      x-kubernetes-int-or-string: true
+                    type: object
+                type: object
             required:
             - image
             - replicas
@@ -185,10 +188,10 @@ spec:
             type: object
           status:
             properties:
-              problems:
-                type: string
               observedGeneration:
                 type: integer
+              problems:
+                type: string
             type: object
         type: object
     served: true
