@@ -24,7 +24,7 @@ rules:
   verbs: ["*"]
 {{- if .Values.strimzi.enabled }}
 - apiGroups: ["kafka.strimzi.io"]
-  resources: ["kafkausers", "kafkatopics"]
+  resources: ["kafkausers", "kafkatopics", "kafkas", "kafkanodepools", "kafkarebalances"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 {{- end -}}
 {{- if .Values.istio.enabled }}
