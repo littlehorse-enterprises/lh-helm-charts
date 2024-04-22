@@ -22,6 +22,10 @@ spec:
       name: ADMINPRINCIPAL
       priority: 0
       type: string
+    - jsonPath: .status.kafkaType
+      name: KAFKATYPE
+      priority: 0
+      type: string
     - jsonPath: .status.partitions
       name: PARTITIONS
       priority: 0
@@ -48,6 +52,8 @@ spec:
                     properties:
                       bootstrapServers:
                         type: string
+                      createTopics:
+                        type: boolean
                       kafkaKeyStore:
                         properties:
                           name:
@@ -73,6 +79,35 @@ spec:
                         type: string
                       securityProtocol:
                         type: string
+                    required:
+                    - securityProtocol
+                    - bootstrapServers
+                    type: object
+                  lhKafkaRef:
+                    properties:
+                      clusterName:
+                        type: string
+                      clusterWideQuotas:
+                        properties:
+                          consumerThroughputPerSecond:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            nullable: true
+                            x-kubernetes-int-or-string: true
+                          producerThroughputPerSecond:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            nullable: true
+                            x-kubernetes-int-or-string: true
+                        required:
+                        - producerThroughputPerSecond
+                        - consumerThroughputPerSecond
+                        type: object
+                    required:
+                    - clusterName
+                    - clusterWideQuotas
                     type: object
                   replicationFactor:
                     type: integer
@@ -147,6 +182,7 @@ spec:
               server:
                 properties:
                   authentication:
+                    nullable: true
                     properties:
                       mtls:
                         properties:
@@ -203,11 +239,32 @@ spec:
                         x-kubernetes-int-or-string: true
                     type: object
                   hotStandbyReplicas:
+                    description: The number of Kafka Streams standby replicas
                     type: integer
                   image:
                     type: string
                   imagePullPolicy:
                     type: string
+                  internalPort:
+                    properties:
+                      mtls:
+                        properties:
+                          secretRef:
+                            properties:
+                              name:
+                                type: string
+                            required:
+                            - name
+                            type: object
+                        required:
+                        - secretRef
+                        type: object
+                    required:
+                    - mtls
+                    type: object
+                  lingerMs:
+                    nullable: true
+                    type: integer
                   listeners:
                     items:
                       properties:
@@ -300,7 +357,41 @@ spec:
                     type: array
                   logLevel:
                     type: string
+                  nodeSelectorTerms:
+                    description: NodeSelectors for LH Server pods. Required during
+                      scheduling ignored during execution.
+                    items:
+                      properties:
+                        matchExpressions:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        matchFields:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   operatorListener:
+                    nullable: true
                     properties:
                       name:
                         type: string
@@ -315,6 +406,10 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                  priorityClassName:
+                    description: Priority Class for LH Server pods.
+                    nullable: true
+                    type: string
                   rackAwareness:
                     nullable: true
                     properties:
@@ -353,8 +448,25 @@ spec:
                     - storageClassName
                     - volumeSize
                     type: object
-                  template:
-                    type: object
+                  streamsMetricsLevel:
+                    nullable: true
+                    type: string
+                  tolerations:
+                    description: Tolerations for LH Server pods.
+                    items:
+                      properties:
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        operator:
+                          type: string
+                        tolerationSeconds:
+                          type: integer
+                        value:
+                          type: string
+                      type: object
+                    type: array
                   version:
                     type: string
                 required:
@@ -368,6 +480,12 @@ spec:
           status:
             properties:
               adminPrincipal:
+                type: string
+              kafkaType:
+                enum:
+                - EXTERNAL
+                - LHKAFKA
+                - STRIMZI
                 type: string
               lastBounceTime:
                 type: integer
