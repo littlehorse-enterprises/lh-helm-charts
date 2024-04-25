@@ -43,11 +43,38 @@ spec:
                         nullable: true
                         x-kubernetes-int-or-string: true
                     type: object
-                  nodeSelector:
-                    additionalProperties:
-                      type: string
+                  nodeSelectorTerms:
+                    items:
+                      properties:
+                        matchExpressions:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        matchFields:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
                     nullable: true
-                    type: object
+                    type: array
                   replicas:
                     minimum: 1.0
                     type: integer
@@ -103,11 +130,38 @@ spec:
                         nullable: true
                         x-kubernetes-int-or-string: true
                     type: object
-                  nodeSelector:
-                    additionalProperties:
-                      type: string
+                  nodeSelectorTerms:
+                    items:
+                      properties:
+                        matchExpressions:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        matchFields:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
                     nullable: true
-                    type: object
+                    type: array
                   replicas:
                     minimum: 1.0
                     type: integer
@@ -147,7 +201,16 @@ spec:
                 type: object
               kafkaVersion:
                 type: string
+              podMonitor:
+                nullable: true
+                properties:
+                  podMonitorLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
               rackNodeLabel:
+                nullable: true
                 type: string
             required:
             - controllers
