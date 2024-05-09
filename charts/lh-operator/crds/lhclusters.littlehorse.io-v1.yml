@@ -15,19 +15,19 @@ spec:
   versions:
   - additionalPrinterColumns:
     - jsonPath: .spec.server.replicas
-      name: REPLICAS
+      name: INSTANCES
       priority: 0
       type: integer
-    - jsonPath: .status.adminPrincipal
-      name: ADMINPRINCIPAL
+    - jsonPath: .status.clusterHealth.offlineTasks
+      name: OFFLINE_TASKS
       priority: 0
-      type: string
-    - jsonPath: .status.kafkaType
-      name: KAFKATYPE
+      type: integer
+    - jsonPath: .status.clusterHealth.underReplicatedCoreTasks
+      name: UNDER_REPLICATED_TASKS
       priority: 0
-      type: string
-    - jsonPath: .status.partitions
-      name: PARTITIONS
+      type: integer
+    - jsonPath: .status.clusterHealth.warmingUpCoreTasks
+      name: WARMUP_TASKS
       priority: 0
       type: integer
     - jsonPath: .status.problems
@@ -242,6 +242,13 @@ spec:
                     description: Sets `commit.interval.ms` for the Core topology.
                     nullable: true
                     type: integer
+                  experimentalConfigOverride:
+                    additionalProperties:
+                      type: string
+                    description: "EXPERIMENTAL: specific configurations to override\
+                      \ on the LH Server. Only applies to configs that are constant\
+                      \ across all server instances."
+                    type: object
                   hotStandbyReplicas:
                     description: The number of Kafka Streams standby replicas
                     type: integer
@@ -461,6 +468,44 @@ spec:
             properties:
               adminPrincipal:
                 type: string
+              clusterHealth:
+                properties:
+                  offlineTasks:
+                    description: Number of Active Core Streams Tasks that are under
+                      restoration.
+                    type: integer
+                  streamTasks:
+                    description: "Health of each Core Topology Stream Task, ordered\
+                      \ by partition number"
+                    items:
+                      properties:
+                        activeTask:
+                          properties:
+                            instanceId:
+                              type: integer
+                            restorationLag:
+                              type: integer
+                          type: object
+                        standbys:
+                          items:
+                            properties:
+                              instanceId:
+                                type: integer
+                              lag:
+                                type: integer
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  underReplicatedCoreTasks:
+                    description: Total number of Core Streams Tasks that don't have
+                      enough caught-up Standbys
+                    type: integer
+                  warmingUpCoreTasks:
+                    description: Number of Core Streams Tasks that are being moved
+                      to different instances
+                    type: integer
+                type: object
               kafkaType:
                 enum:
                 - EXTERNAL
