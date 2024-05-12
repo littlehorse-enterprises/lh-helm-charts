@@ -34,12 +34,17 @@ spec:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: The amount of CPU to assign to the server pod.
+                          Sets request and limit. Influences rocksdb and kafka streams
+                          configs.
                         nullable: true
                         x-kubernetes-int-or-string: true
                       memory:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: The amount of memory to assign to the server
+                          pod. Sets request and limit. Influences RocksDB Configs.
                         nullable: true
                         x-kubernetes-int-or-string: true
                     type: object
@@ -81,12 +86,14 @@ spec:
                   storage:
                     properties:
                       storageClassName:
+                        description: The name of the storageclass with which to provision
+                          storage for the server
                         type: string
                       volumeSize:
                         anyOf:
                         - type: integer
                         - type: string
-                        nullable: true
+                        description: The size of the persistent volume.
                         x-kubernetes-int-or-string: true
                     required:
                     - storageClassName
@@ -121,12 +128,17 @@ spec:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: The amount of CPU to assign to the server pod.
+                          Sets request and limit. Influences rocksdb and kafka streams
+                          configs.
                         nullable: true
                         x-kubernetes-int-or-string: true
                       memory:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: The amount of memory to assign to the server
+                          pod. Sets request and limit. Influences RocksDB Configs.
                         nullable: true
                         x-kubernetes-int-or-string: true
                     type: object
@@ -168,12 +180,14 @@ spec:
                   storage:
                     properties:
                       storageClassName:
+                        description: The name of the storageclass with which to provision
+                          storage for the server
                         type: string
                       volumeSize:
                         anyOf:
                         - type: integer
                         - type: string
-                        nullable: true
+                        description: The size of the persistent volume.
                         x-kubernetes-int-or-string: true
                     required:
                     - storageClassName

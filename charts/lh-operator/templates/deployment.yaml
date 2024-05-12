@@ -47,8 +47,6 @@ spec:
                 fieldPath: metadata.namespace
           - name: LHO_STRIMZI_ENABLED
             value: "{{ .Values.strimzi.enabled }}"
-          - name: LHO_ISTIO_ENABLED
-            value: "{{ .Values.istio.enabled }}"
           - name: LHO_CERTMANAGER_ENABLED
             value: "{{ .Values.certManager.enabled }}"
           - name: LHO_PROMETHEUS_ENABLED

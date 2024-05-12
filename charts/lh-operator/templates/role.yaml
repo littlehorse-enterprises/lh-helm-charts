@@ -13,6 +13,9 @@ rules:
 - apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+- apiGroups: ["gateway.networking.k8s.io"]
+  resources: ["tlsroutes"]
+  verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 - apiGroups: ["networking.k8s.io"]
   resources: ["ingresses"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
@@ -25,11 +28,6 @@ rules:
 {{- if .Values.strimzi.enabled }}
 - apiGroups: ["kafka.strimzi.io"]
   resources: ["kafkausers", "kafkatopics", "kafkas", "kafkanodepools", "kafkarebalances"]
-  verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
-{{- end -}}
-{{- if .Values.istio.enabled }}
-- apiGroups: ["networking.istio.io"]
-  resources: ["virtualservices", "gateways"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 {{- end -}}
 {{- if .Values.certManager.enabled }}

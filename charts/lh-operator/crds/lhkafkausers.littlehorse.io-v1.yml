@@ -46,13 +46,11 @@ spec:
                     anyOf:
                     - type: integer
                     - type: string
-                    nullable: true
                     x-kubernetes-int-or-string: true
                   producerThroughputPerSecond:
                     anyOf:
                     - type: integer
                     - type: string
-                    nullable: true
                     x-kubernetes-int-or-string: true
                 required:
                 - producerThroughputPerSecond

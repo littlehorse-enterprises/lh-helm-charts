@@ -30,12 +30,11 @@ role:
   create: true
 
 strimzi:
-  # Specifies if the operator can create Strimzi topics and users
+  # Specifies if the operator can create Strimzi resources. Used for the
+  # LHCluster, LHKafka, and LHKafkaUser CRD's. Provisions a role that allows the
+  # operator to create Kafka, KafkaUser, KafkaRebalance, KafkaNodePool, and
+  # KafkaTopic resources.
   enabled: true
-
-istio:
-  # Specifies if the operator can create Istio VirtualServices
-  enabled: false
 
 prometheus:
   # Specifies if the operator can create prometheus PodMonitors
