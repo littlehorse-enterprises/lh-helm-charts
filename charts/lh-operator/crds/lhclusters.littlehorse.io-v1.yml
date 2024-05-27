@@ -93,13 +93,15 @@ spec:
                             anyOf:
                             - type: integer
                             - type: string
-                            nullable: true
+                            description: The throughput in bytes per second that may
+                              be consumed by this Kafka principal
                             x-kubernetes-int-or-string: true
                           producerThroughputPerSecond:
                             anyOf:
                             - type: integer
                             - type: string
-                            nullable: true
+                            description: The throughput in bytes per second that may
+                              be produced by this Kafka principal
                             x-kubernetes-int-or-string: true
                         required:
                         - producerThroughputPerSecond
@@ -154,6 +156,7 @@ spec:
               podMonitor:
                 properties:
                   metricRelabelings:
+                    description: Relabelings for the metrics exposed by the server
                     items:
                       properties:
                         action:
@@ -177,11 +180,14 @@ spec:
                   podMonitorLabels:
                     additionalProperties:
                       type: string
+                    description: Labels to add to the generated `PodMonitor` resources
                     type: object
                 type: object
               server:
                 properties:
                   authentication:
+                    description: Determines how the LH Servers will determine Principal
+                      identity
                     nullable: true
                     properties:
                       mtls:
@@ -223,18 +229,25 @@ spec:
                         type: object
                     type: object
                   compute:
+                    description: Specifies the compute resources allocated to the
+                      Server pods
                     nullable: true
                     properties:
                       cpu:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: The amount of CPU to assign to the server pod.
+                          Sets request and limit. Influences rocksdb and kafka streams
+                          configs.
                         nullable: true
                         x-kubernetes-int-or-string: true
                       memory:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: The amount of memory to assign to the server
+                          pod. Sets request and limit. Influences RocksDB Configs.
                         nullable: true
                         x-kubernetes-int-or-string: true
                     type: object
@@ -253,10 +266,20 @@ spec:
                     description: The number of Kafka Streams standby replicas
                     type: integer
                   image:
+                    description: Image to use for the LH Server
+                    nullable: true
                     type: string
                   imagePullPolicy:
+                    description: Image Pull Policy for LH Server Pods
+                    enum:
+                    - Always
+                    - IfNotPresent
+                    - Never
+                    nullable: true
                     type: string
                   internalPort:
+                    description: Configures authentication on the internal port used
+                      for interactive queries
                     properties:
                       mtls:
                         properties:
@@ -274,9 +297,12 @@ spec:
                     - mtls
                     type: object
                   lingerMs:
+                    description: Desired value for `linger.ms` on the Command Producer.
                     nullable: true
                     type: integer
                   listeners:
+                    description: Listeners to expose on the LH Server for use by clients
+                      of the LHCluster
                     items:
                       properties:
                         advertisedListeners:
@@ -309,6 +335,10 @@ spec:
                         authentication:
                           properties:
                             type:
+                              enum:
+                              - MTLS
+                              - NONE
+                              - OAUTH
                               type: string
                           required:
                           - type
@@ -317,6 +347,9 @@ spec:
                           nullable: true
                           properties:
                             ingress:
+                              description: Specifies to create Ingress resources for
+                                the listener.
+                              nullable: true
                               properties:
                                 ingressAnnotations:
                                   additionalProperties:
@@ -327,22 +360,52 @@ spec:
                               required:
                               - ingressClassName
                               type: object
-                            istio:
+                            tlsRoute:
+                              description: Specifies to create TLSRoute according
+                                to the Gateway API. Requires a listener with the 'Passthrough'
+                                TLS mode enabled.
+                              nullable: true
                               properties:
-                                gateway:
+                                advertisedPort:
+                                  description: The advertised port. May differ from
+                                    Gateway port depending on load balancer configuration.
+                                  type: integer
+                                gatewayRef:
+                                  description: Specifies the Gateway to create routes
+                                    for.
                                   properties:
-                                    port:
+                                    name:
+                                      description: The name of the Gateway.
+                                      type: string
+                                    namespace:
+                                      description: The namespace of the Gateway to
+                                        attach to. Defaults to current namespace.
                                       nullable: true
-                                      type: integer
-                                    selector:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
+                                      type: string
+                                    sectionName:
+                                      description: "The sectionName, usually a port\
+                                        \ name, of the referenced Gateway to attach\
+                                        \ to."
+                                      type: string
                                   required:
-                                  - selector
+                                  - name
+                                  - sectionName
+                                  type: object
+                                tlsRouteAnnotations:
+                                  additionalProperties:
+                                    type: string
+                                  description: Optional additional annotations to
+                                    apply to the generated TLSRoutes.
+                                  type: object
+                                tlsRouteLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: Optional additional labels to apply
+                                    to the generated TLSRoutes.
                                   type: object
                               required:
-                              - gateway
+                              - gatewayRef
+                              - advertisedPort
                               type: object
                           type: object
                         name:
@@ -352,7 +415,14 @@ spec:
                         tls:
                           properties:
                             issuerRef:
-                              type: string
+                              properties:
+                                kind:
+                                  description: Kind of the CertManager Issuer or ClusterIssuer
+                                  type: string
+                                name:
+                                  description: Name of the CertManager Issuer or ClusterIssuer
+                                  type: string
+                              type: object
                             secretRef:
                               properties:
                                 name:
@@ -367,6 +437,12 @@ spec:
                       type: object
                     type: array
                   logLevel:
+                    description: Log Level for the LH Server
+                    enum:
+                    - DEBUG
+                    - INFO
+                    - TRACE
+                    - WARN
                     type: string
                   nodeSelector:
                     additionalProperties:
@@ -374,6 +450,8 @@ spec:
                     description: Node Selector for LH Server pods.
                     type: object
                   operatorListener:
+                    description: Configures a listener on the Servers for the Operator
+                      to perform admin operations
                     nullable: true
                     properties:
                       name:
@@ -396,19 +474,25 @@ spec:
                     nullable: true
                     type: string
                   rackAwareness:
+                    description: Specifies rack awareness for the LH Servers
                     nullable: true
                     properties:
                       zoneIds:
+                        description: List of all possible Racks. Required to avoid
+                          giving the Operator a ClusterRole.
                         items:
                           type: string
                         type: array
                       zoneKey:
+                        description: The name of the label on K8s nodes which contains
+                          the Rack information
                         type: string
                     required:
                     - zoneKey
                     - zoneIds
                     type: object
                   replicas:
+                    description: Desired number of LH Server pods
                     minimum: 1.0
                     type: integer
                   serviceAnnotations:
@@ -422,20 +506,31 @@ spec:
                     description: Labels to put on LH Server Services
                     type: object
                   storage:
+                    description: Specification for persistent storage used by the
+                      server
                     properties:
                       storageClassName:
+                        description: The name of the storageclass with which to provision
+                          storage for the server
                         type: string
                       volumeSize:
                         anyOf:
                         - type: integer
                         - type: string
-                        nullable: true
+                        description: The size of the persistent volume.
                         x-kubernetes-int-or-string: true
                     required:
                     - storageClassName
                     - volumeSize
                     type: object
                   streamsMetricsLevel:
+                    description: Level of Kafka Streams metrics to collect. Setting
+                      to DEBUG or TRACE impacts performance.
+                    enum:
+                    - DEBUG
+                    - INFO
+                    - TRACE
+                    - WARN
                     nullable: true
                     type: string
                   tolerations:
@@ -455,6 +550,7 @@ spec:
                       type: object
                     type: array
                   version:
+                    description: Version of the LH Server to deploy
                     type: string
                 required:
                 - replicas
@@ -526,7 +622,6 @@ spec:
                 anyOf:
                 - type: integer
                 - type: string
-                nullable: true
                 x-kubernetes-int-or-string: true
             type: object
         type: object

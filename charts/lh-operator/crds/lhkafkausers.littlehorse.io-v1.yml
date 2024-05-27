@@ -46,13 +46,15 @@ spec:
                     anyOf:
                     - type: integer
                     - type: string
-                    nullable: true
+                    description: The throughput in bytes per second that may be consumed
+                      by this Kafka principal
                     x-kubernetes-int-or-string: true
                   producerThroughputPerSecond:
                     anyOf:
                     - type: integer
                     - type: string
-                    nullable: true
+                    description: The throughput in bytes per second that may be produced
+                      by this Kafka principal
                     x-kubernetes-int-or-string: true
                 required:
                 - producerThroughputPerSecond
