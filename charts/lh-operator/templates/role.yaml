@@ -11,7 +11,7 @@ rules:
   resources: ["secrets", "pods", "configmaps", "serviceaccounts", "persistentvolumeclaims", "services"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 - apiGroups: ["apps"]
-  resources: ["deployments"]
+  resources: ["deployments", "statefulsets"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 - apiGroups: ["networking.k8s.io"]
   resources: ["ingresses"]
@@ -22,14 +22,12 @@ rules:
 - apiGroups: ["littlehorse.io"]
   resources: ["*"]
   verbs: ["*"]
+- apiGroups: ["gateway.networking.k8s.io"]
+  resources: ["tlsroutes"]
+  verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 {{- if .Values.strimzi.enabled }}
 - apiGroups: ["kafka.strimzi.io"]
   resources: ["kafkausers", "kafkatopics", "kafkas", "kafkanodepools", "kafkarebalances"]
-  verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
-{{- end -}}
-{{- if .Values.istio.enabled }}
-- apiGroups: ["networking.istio.io"]
-  resources: ["virtualservices", "gateways"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
 {{- end -}}
 {{- if .Values.certManager.enabled }}
