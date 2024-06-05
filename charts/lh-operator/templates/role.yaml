@@ -22,7 +22,7 @@ rules:
 - apiGroups: ["littlehorse.io"]
   resources: ["*"]
   verbs: ["*"]
-{{- if .Values.strimzi.enabled }}
+{{- if .Values.gatewayApi.enabled }}
 - apiGroups: ["gateway.networking.k8s.io"]
   resources: ["tlsroutes"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
