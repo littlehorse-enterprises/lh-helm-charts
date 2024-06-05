@@ -14,6 +14,14 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .status.isCreated
+      name: CREATED
+      priority: 0
+      type: boolean
+    - jsonPath: .status.lhCluster
+      name: LH_CLUSTER
+      priority: 0
+      type: string
     - jsonPath: .status.problems
       name: PROBLEMS
       priority: 0
@@ -24,12 +32,10 @@ spec:
         properties:
           spec:
             properties:
-              defaultLabels:
-                additionalProperties:
-                  type: string
-                nullable: true
-                type: object
               globalACLs:
+                description: Global ACL's to add to the `Principal` to be created
+                  in the LH Server. These permissions apply to all `Tenant`s inside
+                  the LH Server.
                 items:
                   properties:
                     actions:
@@ -41,6 +47,8 @@ spec:
                   type: object
                 type: array
               perTenantACLs:
+                description: Allows assigning permissions to the `Principal` to access
+                  specific `Tenant`s inside the LH Server.
                 items:
                   properties:
                     acls:
@@ -59,12 +67,19 @@ spec:
                   type: object
                 type: array
               principalName:
+                description: The name of the `Principal` to be created in the LH Server.
                 type: string
             required:
             - principalName
             type: object
           status:
             properties:
+              isCreated:
+                description: Whether the Principal has been created in the LH Server
+                type: boolean
+              lhCluster:
+                description: The LHCluster in which the `Principal` is created
+                type: string
               observedGeneration:
                 type: integer
               problems:

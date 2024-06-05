@@ -177,6 +177,18 @@ spec:
                       x-kubernetes-int-or-string: true
                     type: object
                 type: object
+              tls:
+                properties:
+                  secretRef:
+                    properties:
+                      name:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                required:
+                - secretRef
+                type: object
             required:
             - image
             - replicas
