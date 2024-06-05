@@ -51,6 +51,8 @@ spec:
             value: "{{ .Values.certManager.enabled }}"
           - name: LHO_PROMETHEUS_ENABLED
             value: "{{ .Values.prometheus.enabled }}"
+          - name: LHO_GATEWAY_API_ENABLED
+            value: "{{ .Values.gatewayApi.enabled }}"
           - name: LOG_LEVEL
             value: "{{ .Values.logLevel }}"
       {{- with .Values.nodeSelector }}

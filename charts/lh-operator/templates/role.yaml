@@ -22,9 +22,11 @@ rules:
 - apiGroups: ["littlehorse.io"]
   resources: ["*"]
   verbs: ["*"]
+{{- if .Values.strimzi.enabled }}
 - apiGroups: ["gateway.networking.k8s.io"]
   resources: ["tlsroutes"]
   verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+{{- end -}}
 {{- if .Values.strimzi.enabled }}
 - apiGroups: ["kafka.strimzi.io"]
   resources: ["kafkausers", "kafkatopics", "kafkas", "kafkanodepools", "kafkarebalances"]

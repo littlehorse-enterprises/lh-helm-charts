@@ -41,6 +41,10 @@ certManager:
   # pecifies if CertManager is intalled
   enabled: false
 
+gatewayApi:
+  # Specifies if the Operator can create Gateway API resources.
+  enabled: false
+
 podAnnotations: {}
 
 podSecurityContext: {}
