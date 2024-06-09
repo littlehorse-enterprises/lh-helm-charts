@@ -76,6 +76,9 @@ tolerations: []
 
 affinity: {}
 
+reconciler:
+  threadPoolSize: 8
+
 helm:
   addHelmLabels: true
 
