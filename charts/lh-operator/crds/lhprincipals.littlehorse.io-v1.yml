@@ -22,6 +22,10 @@ spec:
       name: LH_CLUSTER
       priority: 0
       type: string
+    - jsonPath: .status.principalId
+      name: PRINCIPAL_ID
+      priority: 0
+      type: string
     - jsonPath: .status.problems
       name: PROBLEMS
       priority: 0
@@ -67,10 +71,10 @@ spec:
                   type: object
                 type: array
               principalName:
-                description: The name of the `Principal` to be created in the LH Server.
+                description: "The name of the `Principal` to be created in the LH\
+                  \ Server. If null, uses the LHPrincipal name."
+                nullable: true
                 type: string
-            required:
-            - principalName
             type: object
           status:
             properties:
@@ -78,10 +82,13 @@ spec:
                 description: Whether the Principal has been created in the LH Server
                 type: boolean
               lhCluster:
-                description: The LHCluster in which the `Principal` is created
+                description: The LHCluster that the `Principal` belongs to
                 type: string
               observedGeneration:
                 type: integer
+              principalId:
+                description: The ID of the created `Principal` in the LHCluster.
+                type: string
               problems:
                 type: string
             type: object

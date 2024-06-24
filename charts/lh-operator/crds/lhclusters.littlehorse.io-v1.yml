@@ -40,9 +40,61 @@ spec:
         properties:
           spec:
             properties:
+              dashboard:
+                description: Specifies to create Dashboard resources for the cluster
+                nullable: true
+                properties:
+                  image:
+                    description: Dashboard image for the pod. If not provided it defaults
+                      to ghcr.io/littlehorse-enterprises/littlehorse/lh-dashboard
+                      with either latest or the server version if spec.server.version
+                      is set
+                    nullable: true
+                    type: string
+                  imagePullPolicy:
+                    description: Image pull policy for the dashboard container
+                    nullable: true
+                    type: string
+                  replicas:
+                    description: Number of dashboard pod replicas. Defaults to 1
+                    minimum: 1.0
+                    nullable: true
+                    type: integer
+                  tls:
+                    description: Image pull policy for the dashboard container
+                    nullable: true
+                    properties:
+                      secretRef:
+                        description: Secret with a tls.crt for the cert and a tls.key
+                          entry for the key. If tls.cert and tls.key are not present
+                          on the secret the deployment will fail
+                        properties:
+                          name:
+                            type: string
+                        required:
+                        - name
+                        type: object
+                    required:
+                    - secretRef
+                    type: object
+                type: object
               defaultLabels:
                 additionalProperties:
                   type: string
+                type: object
+              internalCommsIssuer:
+                description: Specifies cert-manager issuer to be used for internal
+                  communication certificates
+                nullable: true
+                properties:
+                  kind:
+                    description: Kind of the CertManager Issuer or ClusterIssuer
+                    type: string
+                  name:
+                    description: Name of the CertManager Issuer or ClusterIssuer
+                    type: string
+                required:
+                - name
                 type: object
               kafka:
                 properties:
@@ -422,6 +474,8 @@ spec:
                                 name:
                                   description: Name of the CertManager Issuer or ClusterIssuer
                                   type: string
+                              required:
+                              - name
                               type: object
                             secretRef:
                               properties:
