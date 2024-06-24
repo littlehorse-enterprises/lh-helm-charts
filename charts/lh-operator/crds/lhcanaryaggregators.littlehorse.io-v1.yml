@@ -86,6 +86,7 @@ spec:
                 type: object
               podMonitor:
                 description: Configures `PodMonitor` resources for the Aggregator
+                nullable: true
                 properties:
                   podMonitorLabels:
                     additionalProperties:
