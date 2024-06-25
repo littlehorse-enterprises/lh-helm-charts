@@ -50,6 +50,22 @@ spec:
                       type: string
                   type: object
                 type: array
+              lhCluster:
+                description: Specifies the LittleHorse Cluster
+                properties:
+                  lhClusterRef:
+                    description: Specifies a LittleHorse Cluster managed by the same
+                      Operator
+                    properties:
+                      name:
+                        description: Specifies a the name of the LittleHorse Cluster
+                        type: string
+                    required:
+                    - name
+                    type: object
+                required:
+                - lhClusterRef
+                type: object
               perTenantACLs:
                 description: Allows assigning permissions to the `Principal` to access
                   specific `Tenant`s inside the LH Server.
@@ -75,6 +91,8 @@ spec:
                   \ Server. If null, uses the LHPrincipal name."
                 nullable: true
                 type: string
+            required:
+            - lhCluster
             type: object
           status:
             properties:
