@@ -509,8 +509,14 @@ spec:
                     nullable: true
                     properties:
                       name:
+                        description: Specifies the name of the listener for the operator.
+                          Defaults to operator-only
+                        nullable: true
                         type: string
                       port:
+                        description: Specifies the port of the listener for the operator.
+                          Defaults to 3031
+                        nullable: true
                         type: integer
                     type: object
                   podAnnotations:
