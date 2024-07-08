@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   lh-operator:
   - apiVersion: v2
+    appVersion: 0.10.1
+    created: "2024-07-08T21:33:33.09387747Z"
+    description: LittleHorse Operator
+    digest: a6ca66f139f0d3c1513624f5ebc2e38dc6f44c365731bb1be93e6c51951c7fd0
+    icon: https://littlehorse.dev/img/logo.jpg
+    name: lh-operator
+    type: application
+    urls:
+    - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.10.1/lh-operator-0.10.1.tgz
+    version: 0.10.1
+  - apiVersion: v2
     appVersion: 0.10.0
     created: "2024-06-25T19:53:47.182095787Z"
     description: LittleHorse Operator
@@ -155,4 +166,4 @@ entries:
     urls:
     - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.5.0/lh-operator-0.5.0.tgz
     version: 0.5.0
-generated: "2024-06-25T19:53:47.18221476Z"
+generated: "2024-07-08T21:33:33.093961146Z"
