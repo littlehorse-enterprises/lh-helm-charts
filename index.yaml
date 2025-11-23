@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  lh-kubernetes-connector:
+  - apiVersion: v2
+    appVersion: 0.1.0-RC1
+    created: "2025-11-23T17:58:54.781271263Z"
+    description: LittleHorse Kubernetes Connector
+    digest: d12bf712775c1e2dd58da1043c6648485386d499fa668fd545af912f9527755b
+    name: lh-kubernetes-connector
+    type: application
+    urls:
+    - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-kubernete-connector-0.1.0-RC1/lh-kubernetes-connector-0.1.0-RC1.tgz
+    version: 0.1.0-RC1
   lh-operator:
   - apiVersion: v2
     appVersion: 0.15.1-RC1
@@ -687,4 +698,4 @@ entries:
     urls:
     - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.5.0/lh-operator-0.5.0.tgz
     version: 0.5.0
-generated: "2025-10-31T00:29:59.024624043Z"
+generated: "2025-11-23T17:58:54.780749046Z"
