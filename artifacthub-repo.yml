@@ -1,0 +1,11 @@
+# Artifact Hub repository metadata file
+repositoryID: c209f7f6-9559-4328-b646-663ede9e9cf2
+
+
+# We ignore release candidate versions
+ignore: 
+  - name: lh-operator
+    version: '^.*\-RC*$'
+  - name: lh-kubernetes-connector
+    version: '^.*\-RC*$'
+
