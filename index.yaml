@@ -53,6 +53,26 @@ entries:
     version: 0.1.0-RC1
   lh-operator:
   - apiVersion: v2
+    appVersion: 0.15.1-RC5
+    created: "2025-11-26T21:40:26.534545296Z"
+    dependencies:
+    - condition: strimzi.deploy
+      name: strimzi-kafka-operator
+      repository: https://strimzi.io/charts/
+      version: 0.48.0
+    - condition: strimzi-drain-cleaner.enabled
+      name: strimzi-drain-cleaner
+      repository: https://strimzi.io/charts/
+      version: 1.4.0
+    description: LittleHorse Operator
+    digest: 9df64f7111ce7c8cbb7667082cf60a5fdcf0e9a65e3225af09d389f0698f1a0e
+    icon: https://littlehorse.dev/img/logo.jpg
+    name: lh-operator
+    type: application
+    urls:
+    - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.15.1-RC5/lh-operator-0.15.1-RC5.tgz
+    version: 0.15.1-RC5
+  - apiVersion: v2
     appVersion: 0.15.1-RC4
     created: "2025-11-26T20:56:04.390991426Z"
     dependencies:
@@ -798,4 +818,4 @@ entries:
     urls:
     - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.5.0/lh-operator-0.5.0.tgz
     version: 0.5.0
-generated: "2025-11-26T20:56:04.383953723Z"
+generated: "2025-11-26T21:40:26.527079107Z"
