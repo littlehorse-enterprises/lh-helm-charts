@@ -114,7 +114,7 @@ entries:
   lh-operator:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-04-01T16:11:33.451401292Z"
+    created: "2026-04-01T16:18:40.950366008Z"
     dependencies:
     - condition: strimzi.deploy
       name: strimzi-kafka-operator
@@ -125,7 +125,7 @@ entries:
       repository: oci://quay.io/strimzi-helm
       version: 1.5.0
     description: LittleHorse Operator
-    digest: 8deaeb721ee31c5d4f8c7159bd6e4f0ab2c4e7b5e7025fb169a97b03721bfc79
+    digest: 78579211024afa6f299f7ee5e94c341c01e292592bd75d5229cf04e0ceb9e0e9
     icon: https://littlehorse.dev/img/logo.jpg
     name: lh-operator
     type: application
@@ -598,4 +598,4 @@ entries:
     urls:
     - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.5.0/lh-operator-0.5.0.tgz
     version: 0.5.0
-generated: "2026-04-01T16:11:33.44114435Z"
+generated: "2026-04-01T16:18:40.931017557Z"
