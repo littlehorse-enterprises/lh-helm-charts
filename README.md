@@ -14,13 +14,28 @@ helm repo add littlehorse https://littlehorse-enterprises.github.io/lh-helm-char
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages.  You can then run `helm search repo littlehorse` to see the charts.
 
-To install the lh-operator chart:
+Chart repository page:
+
+- https://littlehorse-enterprises.github.io/lh-helm-charts/
+
+## Available charts
+
+- `lh-operator`: LittleHorse Operator
+- `lh-kubernetes-connector`: LittleHorse Kubernetes Connector
+
+To install the `lh-operator` chart:
 
 ```
 helm install lh-operator littlehorse/lh-operator
 ```
 
-To uninstall the chart:
+To install the `lh-kubernetes-connector` chart:
+
+```
+helm install lh-kubernetes-connector littlehorse/lh-kubernetes-connector
+```
+
+To uninstall a chart:
 
 ```
 helm delete lh-operator
