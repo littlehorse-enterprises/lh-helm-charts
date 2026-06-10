@@ -34,9 +34,3 @@ To install the `lh-kubernetes-connector` chart:
 ```
 helm install lh-kubernetes-connector littlehorse/lh-kubernetes-connector
 ```
-
-To uninstall a chart:
-
-```
-helm delete lh-operator
-```
