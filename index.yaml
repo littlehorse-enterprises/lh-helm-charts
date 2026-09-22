@@ -164,7 +164,7 @@ entries:
   lh-operator:
   - apiVersion: v2
     appVersion: 1.3.0-RC7
-    created: "2026-09-22T16:42:02.305094353Z"
+    created: "2026-09-22T17:08:56.274026314Z"
     dependencies:
     - condition: strimzi.deploy
       name: strimzi-kafka-operator
@@ -187,7 +187,7 @@ entries:
       repository: oci://docker.io/envoyproxy
       version: v1.4.1
     description: LittleHorse Operator
-    digest: d0e89b671720d42b7c81a31425b03a5d0d40e84067d888599a2c155c67cad05b
+    digest: b3921a4ddc830482ab530c10c3200b6ad78214801d85c53caed8ea6d147f1517
     icon: https://littlehorse.dev/img/logo.jpg
     name: lh-operator
     type: application
@@ -1196,4 +1196,4 @@ entries:
     urls:
     - https://github.com/littlehorse-enterprises/lh-helm-charts/releases/download/lh-operator-0.5.0/lh-operator-0.5.0.tgz
     version: 0.5.0
-generated: "2026-09-22T16:42:02.26973927Z"
+generated: "2026-09-22T17:08:56.240453303Z"
