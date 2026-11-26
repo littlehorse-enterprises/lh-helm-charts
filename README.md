@@ -21,16 +21,9 @@ Chart repository page:
 ## Available charts
 
 - `lh-operator`: LittleHorse Operator
-- `lh-kubernetes-connector`: LittleHorse Kubernetes Connector
 
 To install the `lh-operator` chart:
 
 ```
 helm install lh-operator littlehorse/lh-operator
-```
-
-To install the `lh-kubernetes-connector` chart:
-
-```
-helm install lh-kubernetes-connector littlehorse/lh-kubernetes-connector
 ```
