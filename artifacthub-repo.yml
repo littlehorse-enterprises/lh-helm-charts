@@ -6,6 +6,4 @@ repositoryID: c209f7f6-9559-4328-b646-663ede9e9cf2
 ignore: 
   - name: lh-operator
     version: '^.*\-RC*$'
-  - name: lh-kubernetes-connector
-    version: '^.*\-RC*$'
 
